@@ -12,8 +12,15 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
-           "Place": Place, "Review": Review, "State": State, "User": User}
+classes = {
+    "Amenity": Amenity,
+    "BaseModel": BaseModel,
+    "City": City,
+    "Place": Place,
+    "Review": Review,
+    "State": State,
+    "User": User
+}
 
 
 class FileStorage:
@@ -33,6 +40,17 @@ class FileStorage:
                     new_dict[key] = value
             return new_dict
         return self.__objects
+
+    def get(self, cls, id):
+        """get a record from storage using its class and id"""
+        key = cls.__name__ + '.' + id
+        record = self.all(cls)
+        return record.get(key, None)
+
+    def count(self, cls=None):
+        """count the total record for present  in storage for class"""
+        record = self.all(cls)
+        return len(record)
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
